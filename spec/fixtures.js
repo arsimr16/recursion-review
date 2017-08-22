@@ -40,10 +40,10 @@ unstringifiableValues = [
 parseableStrings = [
   // basic stuff
   '[]',
-  '{"foo": ""}'/*,
+  '{"foo": ""}',
   '{}',
   '{"foo": "bar"}',
-  '["one", "two"]',
+  '["one", "two"]' /*,
   '{"a": "b", "c": "d"}',
   '[null,false,true]',
   '{"foo": true, "bar": false, "baz": null}',
@@ -120,7 +120,7 @@ parseableStrings = [
     '              }\r\n' +
     '          }\r\n' +
     '      }\r\n'
-*/];
+*/ ];
 
 // JSON does not allow you to parse these strings
 unparseableStrings = [

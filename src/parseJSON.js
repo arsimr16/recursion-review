@@ -4,6 +4,7 @@
 // but you're not, so you'll write it from scratch:
 var currentPosition = 0;
 var parseJSON = function(json) {
+  json = json.replace(/\s+/g, '');
   currentPosition = 0;
   var parsed;
   console.log('first character: ' + json[currentPosition]);
@@ -19,17 +20,22 @@ var parseJSON = function(json) {
 };
 
 var parseArray = function(json) {
-  json = json.replace(/\s+/g, '');
+  var parsedArray = [];
   var contents = '';
   currentPosition += 1;
   while (json[currentPosition] !== ']') {
-    contents += json[currentPosition];
+    if (json[currentPosition] === ',') {
+      parsedArray.push(contents);
+      contents = '';
+    } else {
+      contents += json[currentPosition];
+    }
     currentPosition += 1;
   }
-  if (contents.length === 0) {
+  if (parsedArray.length === 0) {
     return [];
   }
-  return [contents];
+  return parsedArray;
 };
 
 var parseObject = function(json) {
@@ -42,24 +48,25 @@ var parseObject = function(json) {
   if (json[currentPosition] !== '"') {
     throw new SyntaxError('expected double quote');
   }
-  var key = '';
-  currentPosition += 1;
-  while (json[currentPosition] !== '"') {
-    key += json[currentPosition];
-    currentPosition++;
-  }
+  var key = parseString(json);
   console.log('key: ' + key);
   currentPosition++;
   if (json[currentPosition] !== ':') {
     throw new SyntaxError('expected colon');
   }
   currentPosition++;
-  var value = '';
-  while (json[currentPosition] !== '}') {
-    value += json[currentPosition];
-    currentPosition++;
-  }
-console.log('value: ' + value);
+  var value = parseString(json);
+  console.log('value: ' + value);
   parsedObj[key] = value;
   return parsedObj;
+};
+
+var parseString = function(json) {
+  currentPosition++;
+  var parsedString = '';
+  while (json[currentPosition] !== '"') {
+    parsedString += json[currentPosition];
+    currentPosition++;
+  }
+  return parsedString;
 };
