@@ -24,7 +24,7 @@ var parseJSON = function(json) {
 };
 
 var skipWhiteSpace = function(json) {
-  while (json[currentPosition] === ' ') {
+  while (json[currentPosition].match(/^[\s]/)) {
     currentPosition++;
   }
 }
@@ -38,6 +38,12 @@ var parseArray = function(json) {
   }
   while (json[currentPosition] !== ']') {
     parsedArray.push(parseValue(json));
+    if (json[currentPosition] !== ']' && currentPosition === json.length-1) {
+      throw new SyntaxError('unparseable string');
+    }
+    if (currentPosition > json.length-1) {
+      throw new SyntaxError('unparseable string');
+    }
     if (json[currentPosition] === ',') {
       currentPosition++;
     }
@@ -71,6 +77,9 @@ var parseObject = function(json) {
     let value = parseValue(json);
     //console.log('value: ' + value);
     parsedObj[key] = value;
+    if (currentPosition > json.length-1) {
+      throw new SyntaxError('unparseable string');
+    }
     if (json[currentPosition] === ',') {
       currentPosition++;
     }
@@ -90,6 +99,9 @@ var parseString = function(json) {
       parsedString += json[++currentPosition];
     }
     currentPosition++;
+    if (currentPosition > json.length - 1) {
+      throw new SyntaxError('unparseable string');
+    }
   }
   return parsedString;
 };
