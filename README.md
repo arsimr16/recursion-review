@@ -1,4 +1,4 @@
-# recursion
+# recursion-review
 This is a project I completed as a student at [hackreactor](http://hackreactor.com).  This project was worked on with a pair.
 
 For this sprint I practiced recursion by reimplementing parts of the browser that involve recursion (obviously without using the things I was reimplementing or any other built-in shortcuts).
